@@ -4,7 +4,7 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
-job.setNumReduceTasks(1); // 1 Reduce task
+
 
 public class MaxTemperature {
     public static void main(String[] args) throws Exception {
@@ -13,12 +13,14 @@ public class MaxTemperature {
         System.err.println("Usage: MaxTemperature <input path> <output path>");
         System.exit(-1);
     }
-
+    
     Job job = new Job();
+    job.setNumReduceTasks(1); // 1 Reduce task
     job.setJarByClass(MaxTemperature.class);
     job.setJobName("Max temperature");
     FileInputFormat.addInputPath(job, new Path(args[0]));
     FileOutputFormat.setOutputPath(job, new Path(args[1]));
+    
 
     job.setMapperClass(MaxTemperatureMapper.class);
     job.setReducerClass(MaxTemperatureReducer.class);
